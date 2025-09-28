@@ -1,5 +1,5 @@
 import React from "react";
-import { Routes, Route, Navigate, useLocation, Link as RouterLink } from "react-router-dom";
+import { Routes, Route, Navigate, useLocation, useNavigate, Link as RouterLink } from "react-router-dom";
 import { Box, Flex, Icon, Image, Link, Text, HStack, Button } from "@chakra-ui/react";
 import { Bell, Menu, LogOut } from "lucide-react";
 
@@ -21,6 +21,7 @@ export default function App() {
     pathname.includes("dashboard") ? "Dashboard" :
     pathname.includes("equipments") ? "Equipamentos" :
     pathname.includes("login") ? "Login" : "";
+  const nav = useNavigate();  
 
   return (
     <Box minH="100vh" bg="gray.50" color="gray.900">
@@ -42,14 +43,18 @@ export default function App() {
                   {session.user.name} • {session.user.role === "TECH" ? "Técnico" : "Supervisor"}
                 </Text>
                 <Button
-                size="sm"
-                variant="outline"
-                colorScheme="whiteAlpha"   // deixa texto/borda brancos
-                leftIcon={<Icon as={LogOut} color="currentColor" />}  // ícone branco também
-                _hover={{ bg: "whiteAlpha.300", borderColor: "white" }}
-              >
-                Sair
-              </Button>
+                  size="sm"
+                  variant="outline"
+                  colorScheme="whiteAlpha"
+                  leftIcon={<Icon as={LogOut} color="currentColor" />}
+                  _hover={{ bg: "whiteAlpha.300", borderColor: "white" }}
+                  onClick={() => {
+                    logout();                  // limpa contexto + localStorage
+                    nav("/login", { replace: true }); // manda para login imediatamente
+                  }}
+                >
+                  Sair
+                </Button>
               </>
             ) : (
               <Link as={RouterLink} to="/login" color="white">Entrar</Link>
