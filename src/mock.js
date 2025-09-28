@@ -234,4 +234,3 @@ export const ordersPerDay = {
   done:    [12, 15,  8, 18, 14, 10,  6],
   pending: [ 3,  2,  4,  1,  5,  2,  1],
 };
-g
